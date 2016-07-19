@@ -57,7 +57,6 @@ class blastButton: UIView {
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(blastButton.handleSelfOnTapped(_:)));
         self.addGestureRecognizer(tapGesture);
         
-        self.addBlastLine(10);
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -70,20 +69,107 @@ class blastButton: UIView {
     }
     
     func addBlastLine(number: Int) {
-        for index in 1...number {
-//            let blastLine = CAShapeLayer();
-            let linePath = UIBezierPath();
-            linePath.moveToPoint(self.center);
-            linePath.addLineToPoint(self.calculateDestinationPoint(index));
-            print("Line \(index):" + NSStringFromCGPoint(CGPointMake(self.calculateDestinationPoint(index).x - self.center.x, self.calculateDestinationPoint(index).y - self.center.y)));
+        
+        for layer_s: CALayer in self.layer.sublayers! {
+            if layer_s.isKindOfClass(CAShapeLayer) {
+                layer_s.removeFromSuperlayer();
+            }
         }
+        
+        for index in 1...number {
+            let blastLine                         = CAShapeLayer();
+            let linePath                          = UIBezierPath();
+            linePath.moveToPoint(self.calculateStartPoint(index));
+            linePath.addLineToPoint(self.calculateDestinationPoint(index));
+            blastLine.path                        = linePath.CGPath;
+            blastLine.lineWidth                   = 6.0;
+            blastLine.lineCap                     = kCALineCapRound;
+            blastLine.strokeColor                 = UIColor.redColor().CGColor;
+            blastLine.fillColor                   = UIColor.clearColor().CGColor;
+            blastLine.strokeEnd                   = 0.5;
+
+            self.layer.addSublayer(blastLine);
+
+            let animation                         = CABasicAnimation(keyPath: "strokeStart");
+            animation.duration                    = 0.3;
+            animation.fromValue                   = 0.0;
+            animation.toValue                     = 1.0;
+            animation.removedOnCompletion         = false;
+            animation.fillMode                    = kCAFillModeForwards;
+            animation.timingFunction              = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn);
+            blastLine.addAnimation(animation, forKey: nil);
+
+            let animation_end                     = CABasicAnimation(keyPath: "strokeEnd");
+            animation_end.duration                = 0.3;
+            animation_end.fromValue               = 0.5;
+            animation_end.toValue                 = 1.0;
+            animation_end.removedOnCompletion     = false;
+            animation_end.fillMode                = kCAFillModeForwards;
+            animation_end.timingFunction          = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn);
+            blastLine.addAnimation(animation_end, forKey: nil);
+
+
+            let blastDot                          = CAShapeLayer();
+            blastDot.path                         = UIBezierPath.init(ovalInRect: CGRectMake(self.calculateDotStartPoint(index).x - 2, self.calculateDotStartPoint(index).y - 2, 4, 4)).CGPath;
+            blastDot.fillColor                    = UIColor.redColor().CGColor;
+            self.layer.addSublayer(blastDot);
+            
+            let animation_dot                     = CABasicAnimation(keyPath: "position");
+            animation_dot.duration                = 0.3;
+            animation_dot.fromValue               = NSValue(CGPoint: blastDot.position);
+            animation_dot.toValue                 = NSValue(CGPoint: self.calculateDotDestinationPoint(index));
+            print("StartPoint:" + NSStringFromCGPoint(blastDot.position) + " Destination:" + NSStringFromCGPoint(self.calculateDotDestinationPoint(index)));
+            
+            animation_dot.removedOnCompletion     = false;
+            animation_dot.fillMode                = kCAFillModeForwards;
+            animation_dot.timingFunction          = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn);
+
+            let animation_dot_end                 = CABasicAnimation(keyPath: "opacity");
+            animation_dot_end.beginTime           = 0.3;
+            animation_dot_end.duration            = 0.3;
+            animation_dot_end.fromValue           = 1.0;
+            animation_dot_end.toValue             = 0.0;
+            animation_dot_end.removedOnCompletion = false;
+            animation_dot_end.fillMode            = kCAFillModeForwards;
+            animation_dot_end.timingFunction      = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn);
+            
+            let animation_dot_group               = CAAnimationGroup();
+            animation_dot_group.duration = 0.6;
+            animation_dot_group.animations = [animation_dot, animation_dot_end]
+            blastDot.addAnimation(animation_dot_group, forKey: nil);
+            
+            
+        }
+        self.bringSubviewToFront(self.backgroundView);
+        self.bringSubviewToFront(self.thumbImageView);
+    }
+    
+    func calculateStartPoint(index: Int) -> CGPoint {
+        let angle: Double = (Double(index) - 1) * 36 / 180 * M_PI;
+        let xCoordinate = CGRectGetWidth(self.frame)/2 + CGFloat(sin(angle)) * 25;
+        let yCoordinate = CGRectGetHeight(self.frame)/2 + CGFloat(cos(angle)) * 25;
+        return CGPoint(x: xCoordinate, y: yCoordinate);
     }
     
     func calculateDestinationPoint(index: Int) -> CGPoint {
         let angle: Double = (Double(index) - 1) * 36 / 180 * M_PI;
-        let xCoordinate = self.center.x + CGFloat(sin(angle)) * 50;
-        let yCoordinate = self.center.y + CGFloat(cos(angle)) * 50;
-        return CGPointMake(xCoordinate, yCoordinate);
+        let xCoordinate = CGRectGetWidth(self.frame)/2 + CGFloat(sin(angle)) * 45;
+        let yCoordinate = CGRectGetHeight(self.frame)/2 + CGFloat(cos(angle)) * 45;
+        return CGPoint(x: xCoordinate, y: yCoordinate);
+    }
+    
+    func calculateDotStartPoint(index: Int) -> CGPoint {
+        let xCoordinate = CGRectGetWidth(self.frame)/2;
+        let yCoordinate = CGRectGetHeight(self.frame)/2;
+        return CGPoint(x: xCoordinate, y: yCoordinate);
+    }
+    
+    
+    func calculateDotDestinationPoint(index: Int) -> CGPoint {
+        let angle: Double = 18 + (Double(index) - 1) * 36 / 180 * M_PI;
+        let xCoordinate = CGFloat(sin(angle)) * 45;
+        let yCoordinate = CGFloat(cos(angle)) * 45;
+        return CGPoint(x: xCoordinate, y: -yCoordinate);
     }
     
     func handleSelfOnTapped(gestureRecognizer: UITapGestureRecognizer) {
@@ -91,6 +177,7 @@ class blastButton: UIView {
         self.thumbImageView.transform = CGAffineTransformIdentity;
         self.thumbImageView.layer.anchorPoint = CGPointMake(0.5, 0.5);
         self.backgroundView.layer.anchorPoint = CGPointMake(0.5, 0.5);
+        
         
         UIView.animateWithDuration(0.3, delay: 0,
                                    usingSpringWithDamping: 1,
@@ -104,8 +191,12 @@ class blastButton: UIView {
                                     self.backgroundView.transform = CGAffineTransformMakeScale(0.6, 0.6);
                                     self.thumbImageView.transform = groupTransform;
             }, completion: { (result: Bool) in
-                self.backgroundView.backgroundColor = self.selected ? UIColor.redColor() : UIColor.greenColor();
                 
+                if (self.selected) {
+                    self.addBlastLine(10);
+                }
+                
+                self.backgroundView.backgroundColor = self.selected ? UIColor.redColor() : UIColor.greenColor();
                 UIView.animateWithDuration(0.3, delay: 0,
                     usingSpringWithDamping: 1,
                     initialSpringVelocity: 0,
