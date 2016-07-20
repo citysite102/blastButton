@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(red: 255/255, green: 240/255, blue: 237/255, alpha: 1.0);
-        let button = submitButton.init(frame: CGRectMake(100, 100, 160, 60));
+        let button = submitButton.init(frame: CGRectMake(80, 150, 160, 54));
         button.addTarget(self, action: #selector(ViewController.test));
         self.view.addSubview(button);
     }

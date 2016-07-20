@@ -22,14 +22,14 @@ class submitButton: UIView {
     private let tapColor: UIColor               = UIColor(red: 255/255, green: 248/255, blue: 247/255, alpha: 1.0)
     private let normalBackgrounColor: UIColor   = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     private let submitIconColor: UIColor        = UIColor(red: 6/255, green: 164/255, blue: 191/255, alpha: 1.0)
-    private let loadingBackgrounColor: UIColor  = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+    private let loadingBackgrounColor: UIColor  = UIColor(red: 255/255, green: 248/255, blue: 247/255, alpha: 1.0)
     private let loadingIconColor: UIColor       = UIColor(red: 6/255, green: 164/255, blue: 191/255, alpha: 1.0)
     private let successBackgroundColor: UIColor = UIColor(red: 65/255, green: 195/255, blue: 143/255, alpha: 1.0)
     private let successIconColor: UIColor       = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     private let warningBackgroundColor: UIColor = UIColor(red: 1.0, green: 131/255, blue: 98/255, alpha: 1.0)
     private let warningIconColor: UIColor       = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-    
-    private let kLoadingRadius: CGFloat = 12;
+
+    private let kLoadingRadius: CGFloat         = 12
     
     
     // UI Element
@@ -167,6 +167,7 @@ class submitButton: UIView {
             self.performTapAnimation(gestureRecognizer.locationInView(self));
             let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.3 * Double(NSEC_PER_SEC)))
             dispatch_after(delayTime, dispatch_get_main_queue()) {
+                self.backgroundView.backgroundColor = self.tapColor;
                 self.performSubmitHiddenAnimation();
                 self.buttonState = .loading;
                 if ((self.target?.respondsToSelector(self.selector!)) != nil) {
@@ -226,7 +227,7 @@ class submitButton: UIView {
         let scaleAnimation: CABasicAnimation = CABasicAnimation(keyPath: "transform.scale");
         scaleAnimation.fromValue = 0;
         scaleAnimation.toValue = 1.0;
-        scaleAnimation.duration = 0.3;
+        scaleAnimation.duration = 0.2;
         scaleAnimation.delegate = self;
         scaleAnimation.removedOnCompletion = false;
         scaleAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear);
@@ -268,7 +269,7 @@ class submitButton: UIView {
     }
     
     private func performSubmitHiddenAnimation() {
-        UIView.animateWithDuration(0.5,
+        UIView.animateWithDuration(0.4,
                                    animations: {
                                     self.submitImage.alpha = 0.0;
                                     self.submitImage.transform = CGAffineTransformMakeRotation(CGFloat(M_PI_4/2));
@@ -281,7 +282,7 @@ class submitButton: UIView {
     }
     
     private func performSubmitAppearAnimation() {
-        UIView.animateWithDuration(0.5,
+        UIView.animateWithDuration(0.3,
                                    animations: {
                                     self.submitImage.alpha = 1.0;
                                     self.submitImage.transform = CGAffineTransformMakeRotation(0);
@@ -290,7 +291,7 @@ class submitButton: UIView {
     }
     
     private func performBackgroundColorAnimation(backgroundColor: UIColor, completion: ((Bool) -> Void)?) {
-        UIView.animateWithDuration(0.3,
+        UIView.animateWithDuration(0.4,
                                    animations: { 
                                     self.backgroundView.backgroundColor = backgroundColor;
         });
