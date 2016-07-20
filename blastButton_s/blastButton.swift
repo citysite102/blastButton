@@ -164,7 +164,6 @@ class blastButton: UIView {
         return CGPoint(x: xCoordinate, y: yCoordinate);
     }
     
-    
     func calculateDotDestinationPoint(index: Int) -> CGPoint {
         let angle: Double = 18 + (Double(index) - 1) * 36 / 180 * M_PI;
         let xCoordinate = CGFloat(sin(angle)) * 45;

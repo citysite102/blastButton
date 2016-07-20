@@ -13,6 +13,7 @@
 		77BA4B1D1D38CC1900E8D647 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 77BA4B1C1D38CC1900E8D647 /* Assets.xcassets */; };
 		77BA4B201D38CC1900E8D647 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 77BA4B1E1D38CC1900E8D647 /* LaunchScreen.storyboard */; };
 		77BA4B281D38CD0800E8D647 /* blastButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BA4B271D38CD0800E8D647 /* blastButton.swift */; };
+		77F469991D3F15CC0001B4D5 /* submitButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F469981D3F15CC0001B4D5 /* submitButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		77BA4B1F1D38CC1900E8D647 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		77BA4B211D38CC1900E8D647 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		77BA4B271D38CD0800E8D647 /* blastButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = blastButton.swift; sourceTree = "<group>"; };
+		77F469981D3F15CC0001B4D5 /* submitButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = submitButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				77BA4B1E1D38CC1900E8D647 /* LaunchScreen.storyboard */,
 				77BA4B211D38CC1900E8D647 /* Info.plist */,
 				77BA4B271D38CD0800E8D647 /* blastButton.swift */,
+				77F469981D3F15CC0001B4D5 /* submitButton.swift */,
 			);
 			path = blastButton_s;
 			sourceTree = "<group>";
@@ -139,6 +142,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				77BA4B181D38CC1900E8D647 /* ViewController.swift in Sources */,
+				77F469991D3F15CC0001B4D5 /* submitButton.swift in Sources */,
 				77BA4B161D38CC1900E8D647 /* AppDelegate.swift in Sources */,
 				77BA4B281D38CD0800E8D647 /* blastButton.swift in Sources */,
 			);
@@ -292,6 +296,7 @@
 				77BA4B261D38CC1900E8D647 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
